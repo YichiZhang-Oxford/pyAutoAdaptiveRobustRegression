@@ -1,5 +1,5 @@
 import numpy as np
-import AdaptiveRobustRegression as arr
+import adaptiverobustregression as arr
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 from sstudentt import SST

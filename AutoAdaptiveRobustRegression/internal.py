@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 basepath = os.path.dirname(os.path.abspath(__file__))
-dllpath = os.path.join(basepath, "..", "cpp", "AdaptiveRobustRegression.dll")
+dllpath = os.path.join(basepath, "AdaptiveRobustRegression.dll")
 lib = CDLL(dllpath)
 
 # -----
