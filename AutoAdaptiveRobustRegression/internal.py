@@ -1,9 +1,19 @@
 from ctypes import *
 import numpy as np
 import os
+from sys import platform
 
 basepath = os.path.dirname(os.path.abspath(__file__))
-dllpath = os.path.join(basepath, "AdaptiveRobustRegression.dll")
+
+if platform == 'win32':
+    dllpath = os.path.join(basepath, "AdaptiveRobustRegression.dll")
+elif platform == 'linux' or platform == 'linux2':
+    dllpath = os.path.join(basepath, "linux/AdaptiveRobustRegression.so")
+else:
+    dllpath = os.path.join(basepath, "macos/AdaptiveRobustRegression.so")
+
+print(dllpath)
+
 lib = CDLL(dllpath)
 
 # -----

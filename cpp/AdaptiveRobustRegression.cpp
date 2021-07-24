@@ -19,13 +19,13 @@ struct MyMat
     size_t num_rows, num_cols;
 };
 
-extern "C" __declspec(dllexport) void __cdecl freeMyVec(MyVec &vec)
+extern "C" void freeMyVec(MyVec &vec)
 {
     delete[] vec.data;
     memset((void *)&vec, 0, sizeof(vec));
 }
 
-extern "C" __declspec(dllexport) void __cdecl freeMyMat(MyMat &mat)
+extern "C" void freeMyMat(MyMat &mat)
 {
     delete[] mat.data;
     memset((void *)&mat, 0, sizeof(mat));
@@ -37,7 +37,7 @@ struct HuberCovResult
     MyMat cov;
 };
 
-extern "C" __declspec(dllexport) void __cdecl freeHuberCovResult(const HuberCovResult &result)
+extern "C" void freeHuberCovResult(const HuberCovResult &result)
 {
     delete[] result.means.data;
     delete[] result.cov.data;
@@ -140,7 +140,7 @@ double huberDer(const arma::vec &res, const double tau, const int n)
     return rst / n;
 }
 
-extern "C" __declspec(dllexport) double __cdecl huberMean(MyVec _X, const double tol = 0.001, const int iteMax = 500)
+extern "C" double huberMean(MyVec _X, const double tol = 0.001, const int iteMax = 500)
 {
     arma::vec X(_X.data, _X.n);
     int n = X.n_rows;
@@ -237,7 +237,7 @@ double hMeanCov(const arma::vec &Z, const int n, const int d, const int N, doubl
     return muNew;
 }
 
-extern "C" __declspec(dllexport) HuberCovResult __cdecl huberCov(const MyMat &_X)
+extern "C" HuberCovResult huberCov(const MyMat &_X)
 {
     const arma::mat X(_X.data, _X.num_rows, _X.num_cols);
     const int n = X.n_rows;
@@ -319,7 +319,7 @@ void updateHuber(const arma::mat &Z, const arma::vec &res, arma::vec &der, arma:
     grad = n1 * Z.t() * der;
 }
 
-extern "C" __declspec(dllexport) MyVec __cdecl adaHuberReg(MyMat _X, MyVec _Y, const double tol = 0.0001, const int iteMax = 5000)
+extern "C" MyVec adaHuberReg(MyMat _X, MyVec _Y, const double tol = 0.0001, const int iteMax = 5000)
 {
     arma::mat X(_X.data, _X.num_rows, _X.num_cols);
     arma::vec Y(_Y.data, _Y.n);
@@ -373,7 +373,7 @@ extern "C" __declspec(dllexport) MyVec __cdecl adaHuberReg(MyMat _X, MyVec _Y, c
     return result;
 }
 
-extern "C" __declspec(dllexport) MyVec __cdecl huberReg(MyMat _X, MyVec _Y, const double tol = 0.0001, const double constTau = 1.345, const int iteMax = 5000)
+extern "C" MyVec huberReg(MyMat _X, MyVec _Y, const double tol = 0.0001, const double constTau = 1.345, const int iteMax = 5000)
 {
     arma::mat X(_X.data, _X.num_rows, _X.num_cols);
     arma::vec Y(_Y.data, _Y.n);
@@ -443,7 +443,7 @@ double gradientTauVal(const arma::vec &Y, double mu, double tau, const int n, do
     return (1 / std::sqrt(n)) * arma::accu(tau / (z * arma::sqrt(tau * tau + arma::square(Y - mu)))) / n - (std::sqrt(n) / z - z / std::sqrt(n)) / n;
 }
 
-extern "C" __declspec(dllexport) double __cdecl agdBB(MyVec _Y, double epsilon = 1e-5, int iteMax = 5000)
+extern "C" double agdBB(MyVec _Y, double epsilon = 1e-5, int iteMax = 5000)
 {
     arma::vec Y(_Y.data, _Y.n);
     int n = Y.n_elem;
@@ -503,7 +503,7 @@ extern "C" __declspec(dllexport) double __cdecl agdBB(MyVec _Y, double epsilon =
     return muNew;
 }
 
-extern "C" __declspec(dllexport) double __cdecl agd(MyVec _Y, double epsilon = 1e-5, int iteMax = 5000)
+extern "C" double agd(MyVec _Y, double epsilon = 1e-5, int iteMax = 5000)
 {
     arma::vec Y(_Y.data, _Y.n);
     int n = Y.n_elem;
