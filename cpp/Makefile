@@ -1,10 +1,10 @@
-all: AdaptiveRobustRegression.so
+all: pyAutoAdaptiveRobustRegression.so
 
-AdaptiveRobustRegression.o: AdaptiveRobustRegression.cpp
-	g++ -fPIC  -O2 -Iarmadillo/include -c -o AdaptiveRobustRegression.o AdaptiveRobustRegression.cpp
+pyAutoAdaptiveRobustRegression.o: pyAutoAdaptiveRobustRegression.cpp
+	g++ -fPIC  -O2 -Iarmadillo/include -c -o pyAutoAdaptiveRobustRegression.o pyAutoAdaptiveRobustRegression.cpp
 
-AdaptiveRobustRegression.so: AdaptiveRobustRegression.o
-	 g++  -O2 -shared -o AdaptiveRobustRegression.so  -L. AdaptiveRobustRegression.o -Larmadillo/lib -lopenblas
+pyAutoAdaptiveRobustRegression.so: pyAutoAdaptiveRobustRegression.o
+	 g++  -O2 -shared -o pyAutoAdaptiveRobustRegression.so  -L. pyAutoAdaptiveRobustRegression.o -Larmadillo/lib -lopenblas
 
 clean:
-	rm -f AdaptiveRobustRegression.so AdaptiveRobustRegression.o
+	rm -f pyAutoAdaptiveRobustRegression.so pyAutoAdaptiveRobustRegression.o
