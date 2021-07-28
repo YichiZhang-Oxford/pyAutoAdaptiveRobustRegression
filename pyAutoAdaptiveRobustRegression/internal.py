@@ -6,7 +6,7 @@ from sys import platform
 basepath = os.path.dirname(os.path.abspath(__file__))
 
 if platform == 'win32':
-    dllpath = os.path.join(basepath, "./bin/win32/pyAutoAdaptiveRobustRegression.dll")
+    dllpath = os.path.join(basepath, ".\\bin\\win32\\pyAutoAdaptiveRobustRegression.dll")
 elif platform == 'linux' or platform == 'linux2':
     dllpath = os.path.join(basepath, "./bin/linux/pyAutoAdaptiveRobustRegression.so")
 elif platform == "darwin":
