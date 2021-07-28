@@ -13,17 +13,21 @@ This python package can be installed on **Windows**, **Mac** and **Linux**.
 Install `pyAutoAdaptiveRobustRegression` with `pip`:
 
 ```
-$ pip install pyAutoAdaptiveRobustRegression
+pip install pyAutoAdaptiveRobustRegression
 ```
 
 ## Requirements on Linux and macOS
 
-```sh
-apt install armadillo openblas # for Linux
+For Linux:
+
+```
+apt install armadillo openblas
 ```
 
-```sh
-brew install armadillo openblas # for macOS
+For macOS:
+
+```
+brew install armadillo openblas
 ```
 
 ## Functions
