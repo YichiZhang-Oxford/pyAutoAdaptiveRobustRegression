@@ -1,15 +1,15 @@
 from setuptools import setup
 setup(
-  name = 'AutoAdaptiveRobustRegression',         # How you named your package folder (MyLib)
-  packages = ['AutoAdaptiveRobustRegression'],   # Chose the same as "name"
-  version = '0.2',      # Start with a small number and increase it with every change you make
+  name = 'pyAutoAdaptiveRobustRegression',         # How you named your package folder (MyLib)
+  packages = ['pyAutoAdaptiveRobustRegression'],   # Chose the same as "name"
+  version = '0.1',      # Start with a small number and increase it with every change you make
   license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
-  description = 'TYPE YOUR DESCRIPTION HERE',   # Give a short description about your library
+  description = 'Auto Adaptive Robust Regression Python Package',   # Give a short description about your library
   author = 'Yichi Zhang',                   # Type in your name
-  author_email = 'zhangyichi19941030@gmail.com',      # Type in your E-Mail
-  url = 'https://github.com/1chi-Zhang/adaptive-robust-regression',   # Provide either the link to your github or to your website
-  download_url = 'https://github.com/1chi-Zhang/adaptive-robust-regression',    # I explain this later on
-  keywords = ['Adaptive Gradient Descent'],   # Keywords that define your package best
+  author_email = 'yichi.zhang@worc.ox.ac.uk',      # Type in your E-Mail
+  url = 'https://github.com/YichiZhang-Oxford/pyAutoAdaptiveRobustRegression',   # Provide either the link to your github or to your website
+  download_url = 'https://github.com/YichiZhang-Oxford/pyAutoAdaptiveRobustRegression',    # I explain this later on
+  keywords = ['Auto Adaptive Robust Regression'],   # Keywords that define your package best
   package_data={
     'AutoAdaptiveRobustRegression': ['*.dll','*/*so'],
   },

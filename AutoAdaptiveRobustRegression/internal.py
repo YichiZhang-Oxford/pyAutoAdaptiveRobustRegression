@@ -104,24 +104,6 @@ def huber_cov(X):
     _freeHuberCovResult(result_cpp)
     return result
 
-# -------------------------
-# Adaptive Huber Regression
-# -------------------------
-
-_ada_huber_reg = lib.adaHuberReg
-_ada_huber_reg.argtypes = (MyMat, MyVec, c_double, c_int)
-_ada_huber_reg.restype = MyVec
-
-def ada_huber_reg(X, Y, tol = 0.0001, ite_max = 5000):
-    _X = MyMat()
-    _Y = MyVec()
-    _X.make(X)
-    _Y.make(Y)
-    result_cpp = _ada_huber_reg(_X, _Y, tol, ite_max)
-    result = result_cpp.to_numpy()
-    result_cpp.free()
-    return result
-
 # ----------------
 # Huber Regression
 # ----------------
@@ -136,6 +118,24 @@ def huber_reg(X, Y, tol = 0.0001, constTau = 1.345, ite_max = 5000):
     _X.make(X)
     _Y.make(Y)
     result_cpp = _huber_reg(_X, _Y, tol, constTau, ite_max)
+    result = result_cpp.to_numpy()
+    result_cpp.free()
+    return result
+
+# -------------------------
+# Adaptive Huber Regression
+# -------------------------
+
+_ada_huber_reg = lib.adaHuberReg
+_ada_huber_reg.argtypes = (MyMat, MyVec, c_double, c_int)
+_ada_huber_reg.restype = MyVec
+
+def ada_huber_reg(X, Y, tol = 0.0001, ite_max = 5000):
+    _X = MyMat()
+    _Y = MyVec()
+    _X.make(X)
+    _Y.make(Y)
+    result_cpp = _ada_huber_reg(_X, _Y, tol, ite_max)
     result = result_cpp.to_numpy()
     result_cpp.free()
     return result
@@ -172,9 +172,9 @@ def agd_bb(Y, epsilon = 1e-5, ite_max = 5000):
     result = _agdBB(_Y, epsilon, ite_max)
     return result
 
-# -------------------------
-# Adaptive Gradient Descent with Backtracking
-# -------------------------
+# --------------------------------------------------
+# Adaptive Gradient Descent with Backtracking Method
+# --------------------------------------------------
 
 _agdBacktracking = lib.agdBacktracking
 _agdBacktracking.argtypes = (MyVec, c_double, c_double, c_double, c_double, c_double, c_double, c_double, c_int)
