@@ -8,7 +8,7 @@ This python package implements the Adaptive Gradient Descent, Adaptive Gradient 
 
 ## Installation
 
-This python package can be installed in the **Windows**, **Mac** and **Linux**.
+This python package can be installed on **Windows**, **Mac** and **Linux**.
 
 Install `pyAutoAdaptiveRobustRegression` with `pip`:
 
