@@ -1,5 +1,5 @@
 import numpy as np
-import AutoAdaptiveRobustRegression as arr
+import pyAutoAdaptiveRobustRegression as arr
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 from sstudentt import SST
@@ -234,7 +234,7 @@ def plot_fig2(par_list,data_dict,title):
 # -------------------
 
 def normal_par_simulation(par_list,mu,n=100,simulation_number=2000):
-    
+
     sample_mean_error_99quantile_array = []
     huber_mean_error_99quantile_array = []
     agdBB_mean_error_99quantile_array = []
@@ -274,7 +274,7 @@ plot_fig2(normal_sigma_list,normal_quantile_dict,title)
 # ---------------------------------
 
 def sgt_par_simulation(par_list,mu,lam,n=100,simulation_number=2000):
-    
+
     sample_mean_error_99quantile_array = []
     huber_mean_error_99quantile_array = []
     agdBB_mean_error_99quantile_array = []
@@ -316,7 +316,7 @@ plot_fig2(q_list,sgt_quantile_dict,title)
 # ----------------------
 
 def lognormal_par_simulation(par_list,mu,n=100,simulation_number=2000):
-    
+
     sample_mean_error_99quantile_array = []
     huber_mean_error_99quantile_array = []
     agdBB_mean_error_99quantile_array = []
@@ -356,7 +356,7 @@ plot_fig2(lognormal_sigma_list,lognormal_quantile_dict,title)
 # -------------------
 
 def pareto_par_simulation(par_list,scale,n=100,simulation_number=2000):
-    
+
     sample_mean_error_99quantile_array = []
     huber_mean_error_99quantile_array = []
     agdBB_mean_error_99quantile_array = []

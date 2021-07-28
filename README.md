@@ -16,17 +16,27 @@ Install `pyAutoAdaptiveRobustRegression` with `pip`:
 $ pip install pyAutoAdaptiveRobustRegression
 ```
 
+## Requirements on Linux and macOS
+
+```sh
+apt install armadillo openblas # for Linux
+```
+
+```sh
+brew install armadillo openblas # for macOS
+```
+
 ## Functions
 
-There are seven functions in this package: 
+There are seven functions in this package:
 
-* `agd`: Adaptive Gradient Descent
-* `agd_bb`: Adaptive Gradient Descent with Barzilai-Borwein Method
-* `agd_backtracking`: Adaptive Gradient Descent with Backtracking Method
-* `huber_mean`: Huber Mean Estimation
-* `huber_cov`: Huber Covariance Matrix Estimation
-* `huber_reg`: Huber regression.
-* `ada_huber_reg`: Adaptive Huber regression
+-   `agd`: Adaptive Gradient Descent
+-   `agd_bb`: Adaptive Gradient Descent with Barzilai-Borwein Method
+-   `agd_backtracking`: Adaptive Gradient Descent with Backtracking Method
+-   `huber_mean`: Huber Mean Estimation
+-   `huber_cov`: Huber Covariance Matrix Estimation
+-   `huber_reg`: Huber regression.
+-   `ada_huber_reg`: Adaptive Huber regression
 
 ## License
 
@@ -34,4 +44,4 @@ MIT
 
 ## Author(s)
 
-Yichi Zhang <yichi.zhang@worc.ox.ac.uk>, Qiang Sun <qiang.sun@utoronto.ca> 
+Yichi Zhang <yichi.zhang@worc.ox.ac.uk>, Qiang Sun <qiang.sun@utoronto.ca>

@@ -11,7 +11,7 @@ setup(
   download_url = 'https://github.com/YichiZhang-Oxford/pyAutoAdaptiveRobustRegression',    # I explain this later on
   keywords = ['Auto Adaptive Robust Regression'],   # Keywords that define your package best
   package_data={
-    'AutoAdaptiveRobustRegression': ['*.dll','*/*so'],
+    'pyAutoAdaptiveRobustRegression': ['*.dll', '*/*.so', '*/*.dylib']
   },
   install_requires = ['numpy'],
   classifiers=[
