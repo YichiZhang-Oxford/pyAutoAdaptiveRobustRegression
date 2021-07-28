@@ -2,7 +2,7 @@ from setuptools import setup
 setup(
   name = 'pyAutoAdaptiveRobustRegression',         # How you named your package folder (MyLib)
   packages = ['pyAutoAdaptiveRobustRegression'],   # Chose the same as "name"
-  version = '0.1.2',      # Start with a small number and increase it with every change you make
+  version = '0.1.3',      # Start with a small number and increase it with every change you make
   license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
   description = 'Auto Adaptive Robust Regression Python Package',   # Give a short description about your library
   author = 'Yichi Zhang',                   # Type in your name
