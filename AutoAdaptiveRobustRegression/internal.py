@@ -140,6 +140,22 @@ def huber_reg(X, Y, tol = 0.0001, constTau = 1.345, ite_max = 5000):
     result_cpp.free()
     return result
 
+# -------------------------
+# Adaptive Gradient Descent
+# -------------------------
+
+_agd = lib.agd
+_agd.argtypes = (MyVec, c_double, c_int)
+_agd.restype = (c_double)
+
+def agd(Y, epsilon = 1e-5, ite_max = 5000):
+
+    _Y = MyVec()
+    _Y.data = Y.ctypes.data_as(POINTER(c_double))
+    _Y.n = len(Y)
+    result = _agd(_Y, epsilon, ite_max)
+    return result
+
 # ------------------------------------------------------
 # Adaptive Gradient Descent with Barzilai-Borwein Method
 # ------------------------------------------------------
@@ -157,17 +173,17 @@ def agd_bb(Y, epsilon = 1e-5, ite_max = 5000):
     return result
 
 # -------------------------
-# Adaptive Gradient Descent
+# Adaptive Gradient Descent with Backtracking
 # -------------------------
 
-_agd = lib.agd
-_agd.argtypes = (MyVec, c_double, c_int)
-_agd.restype = (c_double)
+_agdBacktracking = lib.agdBacktracking
+_agdBacktracking.argtypes = (MyVec, c_double, c_double, c_double, c_double, c_double, c_double, c_double, c_int)
+_agdBacktracking.restype = (c_double)
 
-def agd(Y, epsilon = 1e-5, ite_max = 5000):
+def agd_backtracking(Y, s1 = 1.0, gamma1 = 0.5, beta1 = 0.8, s2 = 1.0, gamma2 = 0.5, beta2 = 0.8, epsilon = 1e-5, ite_max = 5000):
 
     _Y = MyVec()
     _Y.data = Y.ctypes.data_as(POINTER(c_double))
     _Y.n = len(Y)
-    result = _agd(_Y, epsilon, ite_max)
+    result = _agdBacktracking(_Y, s1, gamma1, beta1, s2, gamma2, beta2, epsilon, ite_max)
     return result

@@ -443,6 +443,39 @@ double gradientTauVal(const arma::vec &Y, double mu, double tau, const int n, do
     return (1 / std::sqrt(n)) * arma::accu(tau / (z * arma::sqrt(tau * tau + arma::square(Y - mu)))) / n - (std::sqrt(n) / z - z / std::sqrt(n)) / n;
 }
 
+extern "C" double agd(MyVec _Y, double epsilon = 1e-5, int iteMax = 5000)
+{
+    arma::vec Y(_Y.data, _Y.n);
+    int n = Y.n_elem;
+    double eta1 = 1.0;
+    double eta2 = std::sqrt(n);
+    double muOld = std::numeric_limits<double>::infinity();
+    double muNew = arma::mean(Y);
+    double tauOld = std::numeric_limits<double>::infinity();
+    double delta = 0.05;
+    double z = std::min(std::sqrt(std::log(n)), std::sqrt(std::log(1 / delta)));
+    double tauNew = arma::stddev(Y) * std::sqrt(n) / (std::sqrt(2) * z);
+    int iteNum = 0;
+    double LMuOld = std::numeric_limits<double>::infinity();
+    double LMuNew = LnVal(Y, muNew, tauNew, n, z);
+
+    while (((LMuOld - LMuNew > 1e-10) && std::abs(muOld - muNew) > epsilon) && std::abs(tauOld - tauNew) > epsilon && iteNum < iteMax)
+    {
+        muOld = muNew;
+        tauOld = tauNew;
+        LMuOld = LMuNew;
+
+        double gradientLnTauVal = gradientTauVal(Y, muOld, tauOld, n, z);
+        tauNew = tauOld - eta2 * gradientLnTauVal;
+
+        double gradientLnMuVal = gradientMuVal(Y, muOld, tauNew, n, z);
+        muNew = muOld - eta1 * gradientLnMuVal;
+        LMuNew = LnVal(Y, muNew, tauNew, n, z);
+        iteNum += 1;
+    }
+    return muNew;
+}
+
 extern "C" double agdBB(MyVec _Y, double epsilon = 1e-5, int iteMax = 5000)
 {
     arma::vec Y(_Y.data, _Y.n);
@@ -503,12 +536,12 @@ extern "C" double agdBB(MyVec _Y, double epsilon = 1e-5, int iteMax = 5000)
     return muNew;
 }
 
-extern "C" double agd(MyVec _Y, double epsilon = 1e-5, int iteMax = 5000)
-{
+
+extern "C" double agdBacktracking(MyVec _Y, double s1 = 1.0, double gamma1 = 0.5, double beta1 = 0.8, double s2 = 1.0, 
+                                  double gamma2 = 0.5, double beta2 = 0.8, double epsilon = 1e-5, int iteMax = 5000)
+{    
     arma::vec Y(_Y.data, _Y.n);
     int n = Y.n_elem;
-    double eta1 = 1.0;
-    double eta2 = std::sqrt(n);
     double muOld = std::numeric_limits<double>::infinity();
     double muNew = arma::mean(Y);
     double tauOld = std::numeric_limits<double>::infinity();
@@ -516,21 +549,42 @@ extern "C" double agd(MyVec _Y, double epsilon = 1e-5, int iteMax = 5000)
     double z = std::min(std::sqrt(std::log(n)), std::sqrt(std::log(1 / delta)));
     double tauNew = arma::stddev(Y) * std::sqrt(n) / (std::sqrt(2) * z);
     int iteNum = 0;
-    double LMuOld = std::numeric_limits<double>::infinity();
-    double LMuNew = LnVal(Y, muNew, tauNew, n, z);
 
-    while (((LMuOld - LMuNew > 1e-10) && std::abs(muOld - muNew) > epsilon) && std::abs(tauOld - tauNew) > epsilon && iteNum < iteMax)
+    while (std::abs(muOld - muNew) > epsilon && std::abs(tauOld - tauNew) > epsilon && iteNum < iteMax)
     {
         muOld = muNew;
         tauOld = tauNew;
-        LMuOld = LMuNew;
-
+        double LTauOld = LnVal(Y, muOld, tauOld, n, z);
         double gradientLnTauVal = gradientTauVal(Y, muOld, tauOld, n, z);
-        tauNew = tauOld - eta2 * gradientLnTauVal;
 
+        /*backtracking for eta2*/
+        double eta2 = s2;
+        tauNew = tauOld - eta2*gradientLnTauVal;
+        double LTauNew = LnVal(Y, muOld, tauNew, n ,z);
+        
+        while (LTauNew > LTauOld + gamma2*eta2*gradientLnTauVal)
+        {
+            eta2 = beta2*eta2;
+            tauNew = tauOld - eta2*gradientLnTauVal;
+            double LTauNew = LnVal(Y, muOld, tauNew, n ,z);
+            double gradientLnTauVal = gradientTauVal(Y, muOld, tauNew, n, z);
+        }
+        
+        double LMuOld = LTauNew;
         double gradientLnMuVal = gradientMuVal(Y, muOld, tauNew, n, z);
-        muNew = muOld - eta1 * gradientLnMuVal;
-        LMuNew = LnVal(Y, muNew, tauNew, n, z);
+        
+        /*backtracking for eta1*/
+        double eta1 = s1;
+        muNew = muOld - eta1*gradientLnMuVal;
+        double LMuNew = LnVal(Y, muNew, tauNew, n ,z);
+        
+        while (LMuNew > LMuOld + gamma1*eta1*gradientLnMuVal)
+        {
+            eta1 = beta1*eta1;
+            muNew = muOld - eta1*gradientLnMuVal;
+            LMuNew = LnVal(Y, muNew, tauNew, n ,z);
+            gradientLnMuVal = gradientMuVal(Y, muNew, tauNew, n, z);
+        }
         iteNum += 1;
     }
     return muNew;
