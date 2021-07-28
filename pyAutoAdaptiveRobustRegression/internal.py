@@ -6,11 +6,12 @@ from sys import platform
 basepath = os.path.dirname(os.path.abspath(__file__))
 
 if platform == 'win32':
-    dllpath = os.path.join(basepath, ".\\bin\\win32\\pyAutoAdaptiveRobustRegression.dll")
+    dllpath = os.path.join(basepath, "bin\\win32\\pyAutoAdaptiveRobustRegression.dll")
+    os.environ["PATH"] += os.pathsep + os.path.dirname(dllpath) # Allows Anaconda to find openblas.dll on Windows
 elif platform == 'linux' or platform == 'linux2':
-    dllpath = os.path.join(basepath, "./bin/linux/pyAutoAdaptiveRobustRegression.so")
+    dllpath = os.path.join(basepath, "bin/linux/pyAutoAdaptiveRobustRegression.so")
 elif platform == "darwin":
-    dllpath = os.path.join(basepath, "./bin/macos/pyAutoAdaptiveRobustRegression.dylib")
+    dllpath = os.path.join(basepath, "bin/macos/pyAutoAdaptiveRobustRegression.dylib")
 else:
     print("invalid platform")
     exit(1)
