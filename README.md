@@ -4,9 +4,11 @@
 
 ## Description
 
-This python package implements the Adaptive Gradient Descent, Adaptive Gradient Descent with Barzilai-Borwein Method and Adaptive Gradient Descent with Backtracking Method. It also includes the Huber Mean Estimation, Huber Covariance Matrix Estimation, Huber Regression and Adaptive Huber Regression from `R` library `FarmTest`, which has a [CRAN binary release](https://CRAN.R-project.org/package=FarmTest), written by [Xiaoou Pan](https://www.math.ucsd.edu/~xip024/).
+This python package implements the Adaptive Gradient Descent, Adaptive Gradient Descent with Barzilai-Borwein Method and Adaptive Gradient Descent with Backtracking Method. It also includes the Huber Mean Estimation, Huber Covariance Matrix Estimation, Huber Regression and Adaptive Huber Regression from `R` library [FarmTest](https://CRAN.R-project.org/package=FarmTest), written by [Xiaoou Pan](https://www.math.ucsd.edu/~xip024/).
 
 ## Installation
+
+This python package can be installed in the **Windows**, **Mac** and **Linux**.
 
 Install `pyAutoAdaptiveRobustRegression` with `pip`:
 
