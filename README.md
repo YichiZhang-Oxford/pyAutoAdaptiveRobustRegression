@@ -39,8 +39,8 @@ There are seven functions in this package:
 -   `agd_backtracking`: Adaptive Gradient Descent with Backtracking Method
 -   `huber_mean`: Huber Mean Estimation
 -   `huber_cov`: Huber Covariance Matrix Estimation
--   `huber_reg`: Huber regression.
--   `ada_huber_reg`: Adaptive Huber regression
+-   `huber_reg`: Huber Regression.
+-   `ada_huber_reg`: Adaptive Huber Regression
 
 ## License
 
