@@ -69,10 +69,10 @@ def plot_data(alpha_list, error_dict):
 
 def plot_fig1(alpha_list,data_dict,title):
     f = plt.figure()
-    plt.plot(alpha_list, data_dict["sample_mean_error_list"], label = "Sample Mean", linestyle="-")
-    plt.plot(alpha_list, data_dict["huber_mean_error_list"], label = "DA-Huber", linestyle="--")
-    plt.plot(alpha_list, data_dict["agdBB_mean_error_list"], label = "AGD_BB", linestyle="-.")
-    plt.plot(alpha_list, data_dict["agd_mean_error_list"], label = "AGD", linestyle=":")
+    plt.plot(alpha_list, data_dict["sample_mean_error_list"], color = "red", label = "Sample Mean", linestyle="-")
+    plt.plot(alpha_list, data_dict["huber_mean_error_list"], color = "blue", label = "DA-Huber", linestyle="--")
+    plt.plot(alpha_list, data_dict["agdBB_mean_error_list"], color = "yellow", label = "AGD_BB", linestyle="-.")
+    plt.plot(alpha_list, data_dict["agd_mean_error_list"], color = "green", label = "AGD", linestyle=":")
     plt.xlabel('Confidence level')
     plt.ylabel('Estimation error')
     plt.legend()
@@ -109,7 +109,7 @@ mu = 0
 sigma =1
 normal_error_dict = normal_simulation(mu,sigma)
 normal_data_dict = plot_data(alpha_list,normal_error_dict)
-title = "Normal_distribution"
+title = "N(0, 1)"
 plot_fig1(alpha_list,normal_data_dict,title)
 
 # ---------------------------------
@@ -143,7 +143,7 @@ lam = 0.75
 q = 2.5
 sgt_error_dict = sgt_simulation(mu,sigma,lam,q)
 sgt_data_dict = plot_data(alpha_list,sgt_error_dict)
-title = "Skewed_generalized_t_distribution"
+title = "SGT(0, 5, 0.75, 2, 2.5)"
 plot_fig1(alpha_list,sgt_data_dict,title)
 
 # ----------------------
@@ -174,7 +174,7 @@ mu = 0
 sigma = 1.5
 lognormal_error_dict = lognormal_simulation(mu, sigma)
 lognormal_data_dict = plot_data(alpha_list,lognormal_error_dict)
-title = "Lognormal_distribution"
+title = "LN(0, 1.5)"
 plot_fig1(alpha_list,lognormal_data_dict,title)
 
 # -------------------
@@ -206,7 +206,7 @@ scale = 1
 shape = 2
 pareto_error_dict = pareto_simulation(scale,shape)
 pareto_data_dict = plot_data(alpha_list,pareto_error_dict)
-title = "Pareto_distribution"
+title = "Par(1, 2)"
 plot_fig1(alpha_list,pareto_data_dict,title)
 
 # ===========================================================================================================
@@ -219,10 +219,10 @@ plot_fig1(alpha_list,pareto_data_dict,title)
 
 def plot_fig2(par_list,data_dict,title):
     f = plt.figure()
-    plt.plot(par_list, data_dict["sample_mean_error_99quantile_array"], label = "Sample Mean", linestyle="-")
-    plt.plot(par_list, data_dict["huber_mean_error_99quantile_array"], label = "DA-Huber", linestyle="--")
-    plt.plot(par_list, data_dict["agdBB_mean_error_99quantile_array"], label = "AGD_BB", linestyle="-.")
-    plt.plot(par_list, data_dict["agd_mean_error_99quantile_array"], label = "AGD", linestyle=":")
+    plt.plot(par_list, data_dict["sample_mean_error_99quantile_array"], color = "red", label = "Sample Mean", linestyle="-")
+    plt.plot(par_list, data_dict["huber_mean_error_99quantile_array"], color = "blue", label = "DA-Huber", linestyle="--")
+    plt.plot(par_list, data_dict["agdBB_mean_error_99quantile_array"], color = "yellow", label = "AGD_BB", linestyle="-.")
+    plt.plot(par_list, data_dict["agd_mean_error_99quantile_array"], color = "green", label = "AGD", linestyle=":")
     plt.xlabel('Parameter')
     plt.ylabel('Estimation error')
     plt.legend()
@@ -267,7 +267,7 @@ def normal_par_simulation(par_list,mu,n=100,simulation_number=2000):
 mu = 0
 normal_sigma_list = [round(x,2) for x in np.arange(1, 4.1, 0.05)]
 normal_quantile_dict = normal_par_simulation(normal_sigma_list,mu)
-title = "Normal_distribution"
+title = "Normal distribution"
 plot_fig2(normal_sigma_list,normal_quantile_dict,title)
 
 # ---------------------------------
@@ -309,7 +309,7 @@ mu = 0
 lam = 0.75
 q_list = [round(x,2) for x in np.arange(2.5, 4.1, 0.05)]
 sgt_quantile_dict = sgt_par_simulation(q_list,mu,lam)
-title = "Skewed_generalized_t_distribution"
+title = "Skewed generalized t distribution"
 plot_fig2(q_list,sgt_quantile_dict,title)
 
 # ----------------------
@@ -349,7 +349,7 @@ def lognormal_par_simulation(par_list,mu,n=100,simulation_number=2000):
 mu = 0
 lognormal_sigma_list = [round(x,3) for x in np.arange(0.25, 2.01, 0.05)]
 lognormal_quantile_dict = lognormal_par_simulation(lognormal_sigma_list,mu)
-title = "Lognormal_distribution"
+title = "Lognormal distribution"
 plot_fig2(lognormal_sigma_list,lognormal_quantile_dict,title)
 
 # -------------------
@@ -390,5 +390,5 @@ def pareto_par_simulation(par_list,scale,n=100,simulation_number=2000):
 scale = 1
 shape_list = [round(x,2) for x in np.arange(1.5, 3.1, 0.05)]
 pareto_quantile_dict = pareto_par_simulation(shape_list, scale)
-title = "Pareto_distribution"
+title = "Pareto distribution"
 plot_fig2(shape_list,pareto_quantile_dict,title)
