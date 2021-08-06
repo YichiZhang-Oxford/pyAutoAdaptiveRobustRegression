@@ -34,6 +34,16 @@ For Linux:
 apt install armadillo openblas
 ```
 
+## Common Error Messages
+
+Some common error messages along with their solutions are collected below, and we'll keep updating them based on users' feedback:
+
+* **Error**: "6): Symbol not found: ___addtf3 Referenced from: /usr/local/opt/gcc/lib/gcc/11/libquadmath.0.dylib 
+Expected in: /usr/lib/libSystem.B.dylib 
+in /usr/local/opt/gcc/lib/gcc/11/libquadmath.0.dylib"
+
+  **Solution**: After running `brew config` and `brew doctor`, found out the problem was due to that gcc is not linked. Running `sudo chown -R $(whoami) /usr/local/lib/gcc` and then `brew link gcc` solved the problem. [(more details)](https://github.com/CMU-Perceptual-Computing-Lab/openpose/issues/1053)
+
 ## Functions
 
 There are seven functions in this package:
