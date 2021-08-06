@@ -61,7 +61,7 @@ There are seven functions in this package:
 
 First, we present an example of mean estimation about Huber and Adaptive Gradient Descent related methods. We generate data from a log-normal distribution, which is asymmetric and heavy-tailed.
 
-```
+```py
 # Import libraries
 import numpy as np
 import pyAutoAdaptiveRobustRegression as arr
