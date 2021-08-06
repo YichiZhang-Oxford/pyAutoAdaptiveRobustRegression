@@ -84,7 +84,7 @@ Third, for each setting, we generate an independent sample of size *n = 100* and
 
 The four mean estimators perform almost identically for the normal data. For the heavy-tailed skewed distributions, the deviation of the sample mean from the population mean grows rapidly with the confidence level, in striking contrast to the Huber estimator, the Adaptive Gradient Descent estimator, and the Adaptive Gradient Descent with Barzilai-Borwein Method.
 
-![normal distribution]()
+![normal distribution](https://github.com/YichiZhang-Oxford/pyAutoAdaptiveRobustRegression/blob/main/example/Normal_distribution_figure_1.png)
 
 ## License
 
