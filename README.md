@@ -25,7 +25,7 @@ There is no requirement for Windows. The armadillo and openblas libraries have a
 For Mac:
 
 ```
-brew install armadillo openblas
+brew install armadillo
 ```
 
 For Linux:
@@ -38,11 +38,10 @@ apt install armadillo openblas
 
 Some common error messages along with their solutions are collected below, and we'll keep updating them based on users' feedback:
 
-* **Error**: "6): Symbol not found: ___addtf3 Referenced from: /usr/local/opt/gcc/lib/gcc/11/libquadmath.0.dylib 
+1. **Error**: 6): Symbol not found: ___addtf3 Referenced from: /usr/local/opt/gcc/lib/gcc/11/libquadmath.0.dylib 
 Expected in: /usr/lib/libSystem.B.dylib 
-in /usr/local/opt/gcc/lib/gcc/11/libquadmath.0.dylib"
-
-  **Solution**: After running `brew config` and `brew doctor`, found out the problem was due to that gcc is not linked. Running `sudo chown -R $(whoami) /usr/local/lib/gcc` and then `brew link gcc` solved the problem. [(more details)](https://github.com/CMU-Perceptual-Computing-Lab/openpose/issues/1053)
+in /usr/local/opt/gcc/lib/gcc/11/libquadmath.0.dylib
+   **Solution**: After running `brew config` and `brew doctor`, found out the problem was due to that gcc is not linked. Running `sudo chown -R $(whoami) /usr/local/lib/gcc` and then `brew link gcc` solved the problem. [(more details)](https://github.com/CMU-Perceptual-Computing-Lab/openpose/issues/1053)
 
 ## Functions
 
@@ -55,6 +54,35 @@ There are seven functions in this package:
 -   `huber_cov`: Huber Covariance Matrix Estimation
 -   `huber_reg`: Huber Regression
 -   `ada_huber_reg`: Adaptive Huber Regression
+
+
+## Examples 
+
+First, we import required libraries.
+
+```
+# Import libraries
+import numpy as np
+import pyAutoAdaptiveRobustRegression as arr
+from tqdm import tqdm
+import matplotlib.pyplot as plt
+from sstudentt import sst
+```
+
+Second, we present an example of mean estimation about Huber and Adaptive Gradient Descent related methods. We generate data from a log-normal distribution, which is asymmetric and heavy-tailed.
+
+```
+# Mean Estimation
+n = 1000
+X=np.random.lognormal(0,1.5,n)-np.exp(1.5**2/2)
+huber_mean_result = arr.huber_mean(X)
+agd_result = arr.agd(X)
+agd_bb_result = arr.agd_bb(X)
+```
+
+Third, for each setting, we generate an independent sample of size n = 100 and compute four mean estimators: the Sample Mean, the Huber estimator, the Adaptive Gradient Descent estimator, and the Adaptive Gradient Descent with Barzilai-Borwein Method. Figure 1 displays the &alpha;-quantile of the estimation error, with &alpha; ranging from 0.5 to 1 based on 2000 simulations.
+
+The four mean estimators perform almost identically for the normal data. For the heavy-tailed skewed distributions, the deviation of the sample mean from the population mean grows rapidly with the confidence level, in striking contrast to the Huber estimator, the Adaptive Gradient Descent estimator, and the Adaptive Gradient Descent with Barzilai-Borwein Method.
 
 ## License
 
