@@ -566,8 +566,8 @@ extern "C" double agdBacktracking(MyVec _Y, double s1 = 1.0, double gamma1 = 0.5
         {
             eta2 = beta2*eta2;
             tauNew = tauOld - eta2*gradientLnTauVal;
-            double LTauNew = LnVal(Y, muOld, tauNew, n ,z);
-            double gradientLnTauVal = gradientTauVal(Y, muOld, tauNew, n, z);
+            LTauNew = LnVal(Y, muOld, tauNew, n ,z);
+            gradientLnTauVal = gradientTauVal(Y, muOld, tauNew, n, z);
         }
         
         double LMuOld = LTauNew;
