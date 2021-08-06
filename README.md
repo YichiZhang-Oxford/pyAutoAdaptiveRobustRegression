@@ -86,11 +86,16 @@ The four mean estimators perform almost identically for the normal data. For the
 
 ![figure 1](https://github.com/YichiZhang-Oxford/pyAutoAdaptiveRobustRegression/blob/main/example/figure_1.png)
 
-**Figure 1**: Estimation error versus confidence level for the sample mean, DA-Huber, and the Adaptive Gradient Descent estimator, and the Adaptive Gradient Descent with Barzilai-Borwein estimator based on *2000* simulations.
+**Figure 1**: Estimation error versus confidence level for the sample mean, the DA-Huber, and the Adaptive Gradient Descent estimator, and the Adaptive Gradient Descent with Barzilai-Borwein estimator based on *2000* simulations.
 
-Finally, we examine the *99%*-quantile of the estimation error versus a distribution parameter measuring the tail behavior and the skewness. That is, for normal data we let &sigma; vary between *1* and *4*; for skewed generalized *t* distributions, we increase the shape parameter *q* from *2.5* to *4*; for the lognormal and Pareto distributions, the shape parameters &sigma; and &alpha; vary from *0.25* to *2* and *1.5* to *3*, respectively.
+Finally, in **Figure 2*, we examine the *99%*-quantile of the estimation error versus a distribution parameter measuring the tail behavior and the skewness. That is, for normal data we let &sigma; vary between *1* and *4*; for skewed generalized *t* distributions, we increase the shape parameter *q* from *2.5* to *4*; for the lognormal and Pareto distributions, the shape parameters &sigma; and &alpha; vary from *0.25* to *2* and *1.5* to *3*, respectively.
+
+The DA-Huber, the Adaptive Gradient Descent estimator, and the Adaptive Gradient Descent with Barzilai-Borwein estimator show substantial improvement in the deviations from the population mean because the distribution tends to have heavier tails and becomes more skewed.
 
 ![figure 2](https://github.com/YichiZhang-Oxford/pyAutoAdaptiveRobustRegression/blob/main/example/figure_2.png)
+
+**Figure 2**: Empirical *99%*-quantile of the estimation error versus a parameter measuring
+the tails and skewness for the sample mean, the DA-Huber, and the Adaptive Gradient Descent estimator, and the Adaptive Gradient Descent with Barzilai-Borwein estimator
 
 ## License
 
