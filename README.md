@@ -65,7 +65,8 @@ First, we present an example of mean estimation about Huber and Adaptive Gradien
 # Import libraries
 import numpy as np
 import pyAutoAdaptiveRobustRegression as arr
-# Mean Estimation
+
+# Mean estimation
 n = 1000
 X=np.random.lognormal(0,1.5,n)-np.exp(1.5**2/2)
 huber_mean_result = arr.huber_mean(X)
