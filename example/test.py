@@ -78,7 +78,8 @@ def plot_fig1(alpha_list,data_dict,title):
     plt.legend()
     plt.title(title)
     #plt.show()
-    f.savefig(title+" figure 1.pdf", dpi=300)
+    #f.savefig(title+"_figure_1.pdf", dpi=300)
+    f.savefig(title+"_figure_1.png", dpi=300)
 
 # -------------------
 # Normal Distribution
@@ -108,7 +109,7 @@ mu = 0
 sigma =1
 normal_error_dict = normal_simulation(mu,sigma)
 normal_data_dict = plot_data(alpha_list,normal_error_dict)
-title = "Normal distribution"
+title = "Normal_distribution"
 plot_fig1(alpha_list,normal_data_dict,title)
 
 # ---------------------------------
@@ -142,7 +143,7 @@ lam = 0.75
 q = 2.5
 sgt_error_dict = sgt_simulation(mu,sigma,lam,q)
 sgt_data_dict = plot_data(alpha_list,sgt_error_dict)
-title = "Skewed generalized t distribution"
+title = "Skewed_generalized_t_distribution"
 plot_fig1(alpha_list,sgt_data_dict,title)
 
 # ----------------------
@@ -173,7 +174,7 @@ mu = 0
 sigma = 1.5
 lognormal_error_dict = lognormal_simulation(mu, sigma)
 lognormal_data_dict = plot_data(alpha_list,lognormal_error_dict)
-title = "Lognormal distribution"
+title = "Lognormal_distribution"
 plot_fig1(alpha_list,lognormal_data_dict,title)
 
 # -------------------
@@ -205,7 +206,7 @@ scale = 1
 shape = 2
 pareto_error_dict = pareto_simulation(scale,shape)
 pareto_data_dict = plot_data(alpha_list,pareto_error_dict)
-title = "Pareto distribution"
+title = "Pareto_distribution"
 plot_fig1(alpha_list,pareto_data_dict,title)
 
 # ===========================================================================================================
@@ -227,7 +228,7 @@ def plot_fig2(par_list,data_dict,title):
     plt.legend()
     plt.title(title)
     #plt.show()
-    f.savefig(title+" figure 2.pdf", dpi=300)
+    f.savefig(title+"_figure_2.png", dpi=300)
 
 # -------------------
 # Normal Distribution
@@ -266,7 +267,7 @@ def normal_par_simulation(par_list,mu,n=100,simulation_number=2000):
 mu = 0
 normal_sigma_list = [round(x,2) for x in np.arange(1, 4.1, 0.05)]
 normal_quantile_dict = normal_par_simulation(normal_sigma_list,mu)
-title = "Normal distribution"
+title = "Normal_distribution"
 plot_fig2(normal_sigma_list,normal_quantile_dict,title)
 
 # ---------------------------------
@@ -308,7 +309,7 @@ mu = 0
 lam = 0.75
 q_list = [round(x,2) for x in np.arange(2.5, 4.1, 0.05)]
 sgt_quantile_dict = sgt_par_simulation(q_list,mu,lam)
-title = "Skewed generalized t distribution"
+title = "Skewed_generalized_t_distribution"
 plot_fig2(q_list,sgt_quantile_dict,title)
 
 # ----------------------
@@ -348,7 +349,7 @@ def lognormal_par_simulation(par_list,mu,n=100,simulation_number=2000):
 mu = 0
 lognormal_sigma_list = [round(x,3) for x in np.arange(0.25, 2.01, 0.05)]
 lognormal_quantile_dict = lognormal_par_simulation(lognormal_sigma_list,mu)
-title = "Lognormal distribution"
+title = "Lognormal_distribution"
 plot_fig2(lognormal_sigma_list,lognormal_quantile_dict,title)
 
 # -------------------
@@ -389,5 +390,5 @@ def pareto_par_simulation(par_list,scale,n=100,simulation_number=2000):
 scale = 1
 shape_list = [round(x,2) for x in np.arange(1.5, 3.1, 0.05)]
 pareto_quantile_dict = pareto_par_simulation(shape_list, scale)
-title = "Pareto distribution"
+title = "Pareto_distribution"
 plot_fig2(shape_list,pareto_quantile_dict,title)
