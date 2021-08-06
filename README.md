@@ -1,4 +1,4 @@
-# pyAuto-ARR
+# pyAutoARR
 
 **Auto Adaptive Robust Regression Python Package**
 
