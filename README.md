@@ -41,6 +41,7 @@ Some common error messages along with their solutions are collected below, and w
 1. **Error**: 6): Symbol not found: ___addtf3 Referenced from: /usr/local/opt/gcc/lib/gcc/11/libquadmath.0.dylib 
 Expected in: /usr/lib/libSystem.B.dylib 
 in /usr/local/opt/gcc/lib/gcc/11/libquadmath.0.dylib
+
    **Solution**: After running `brew config` and `brew doctor`, found out the problem was due to that gcc is not linked. Running `sudo chown -R $(whoami) /usr/local/lib/gcc` and then `brew link gcc` solved the problem. [(more details)](https://github.com/CMU-Perceptual-Computing-Lab/openpose/issues/1053)
 
 ## Functions
@@ -88,7 +89,7 @@ The four mean estimators perform almost identically for the normal data. For the
 
 **Figure 1**: Estimation error versus confidence level for the sample mean, the DA-Huber, and the Adaptive Gradient Descent estimator, and the Adaptive Gradient Descent with Barzilai-Borwein estimator based on *2000* simulations.
 
-Finally, in **Figure 2*, we examine the *99%*-quantile of the estimation error versus a distribution parameter measuring the tail behavior and the skewness. That is, for normal data we let &sigma; vary between *1* and *4*; for skewed generalized *t* distributions, we increase the shape parameter *q* from *2.5* to *4*; for the lognormal and Pareto distributions, the shape parameters &sigma; and &alpha; vary from *0.25* to *2* and *1.5* to *3*, respectively.
+Finally, in **Figure 2**, we examine the *99%*-quantile of the estimation error versus a distribution parameter measuring the tail behavior and the skewness. That is, for normal data we let &sigma; vary between *1* and *4*; for skewed generalized *t* distributions, we increase the shape parameter *q* from *2.5* to *4*; for the lognormal and Pareto distributions, the shape parameters &sigma; and &alpha; vary from *0.25* to *2* and *1.5* to *3*, respectively.
 
 The DA-Huber, the Adaptive Gradient Descent estimator, and the Adaptive Gradient Descent with Barzilai-Borwein estimator show substantial improvement in the deviations from the population mean because the distribution tends to have heavier tails and becomes more skewed.
 
