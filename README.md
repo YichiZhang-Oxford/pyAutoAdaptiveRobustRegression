@@ -59,20 +59,12 @@ There are seven functions in this package:
 
 ## Examples 
 
-First, we import required libraries.
+First, we present an example of mean estimation about Huber and Adaptive Gradient Descent related methods. We generate data from a log-normal distribution, which is asymmetric and heavy-tailed.
 
 ```
 # Import libraries
 import numpy as np
 import pyAutoAdaptiveRobustRegression as arr
-from tqdm import tqdm
-import matplotlib.pyplot as plt
-from sstudentt import sst
-```
-
-Second, we present an example of mean estimation about Huber and Adaptive Gradient Descent related methods. We generate data from a log-normal distribution, which is asymmetric and heavy-tailed.
-
-```
 # Mean Estimation
 n = 1000
 X=np.random.lognormal(0,1.5,n)-np.exp(1.5**2/2)
@@ -81,7 +73,7 @@ agd_result = arr.agd(X)
 agd_bb_result = arr.agd_bb(X)
 ```
 
-Third, for each setting, we generate an independent sample of size *n = 100* and compute four mean estimators: the Sample Mean, the Huber estimator, the Adaptive Gradient Descent estimator, and the Adaptive Gradient Descent with Barzilai-Borwein Method. **Figure 1** displays the &alpha;-quantile of the estimation error, with &alpha; ranging from *0.5* to *1* based on 2000 simulations.
+Second, for each setting, we generate an independent sample of size *n = 100* and compute four mean estimators: the Sample Mean, the Huber estimator, the Adaptive Gradient Descent estimator, and the Adaptive Gradient Descent with Barzilai-Borwein Method. **Figure 1** displays the &alpha;-quantile of the estimation error, with &alpha; ranging from *0.5* to *1* based on 2000 simulations.
 
 The four mean estimators perform almost identically for the normal data. For the heavy-tailed skewed distributions, the deviation of the sample mean from the population mean grows rapidly with the confidence level, in striking contrast to the DA-Huber estimator, the Adaptive Gradient Descent estimator, and the Adaptive Gradient Descent with Barzilai-Borwein Method.
 
