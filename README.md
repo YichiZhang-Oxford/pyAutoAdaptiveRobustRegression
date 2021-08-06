@@ -82,9 +82,15 @@ agd_bb_result = arr.agd_bb(X)
 
 Third, for each setting, we generate an independent sample of size *n = 100* and compute four mean estimators: the Sample Mean, the Huber estimator, the Adaptive Gradient Descent estimator, and the Adaptive Gradient Descent with Barzilai-Borwein Method. **Figure 1** displays the &alpha;-quantile of the estimation error, with &alpha; ranging from *0.5* to *1* based on 2000 simulations.
 
-The four mean estimators perform almost identically for the normal data. For the heavy-tailed skewed distributions, the deviation of the sample mean from the population mean grows rapidly with the confidence level, in striking contrast to the Huber estimator, the Adaptive Gradient Descent estimator, and the Adaptive Gradient Descent with Barzilai-Borwein Method.
+The four mean estimators perform almost identically for the normal data. For the heavy-tailed skewed distributions, the deviation of the sample mean from the population mean grows rapidly with the confidence level, in striking contrast to the DA-Huber estimator, the Adaptive Gradient Descent estimator, and the Adaptive Gradient Descent with Barzilai-Borwein Method.
 
-![figure 1](https://github.com/YichiZhang-Oxford/pyAutoAdaptiveRobustRegression/blob/main/example/figure1.png)
+![figure 1](https://github.com/YichiZhang-Oxford/pyAutoAdaptiveRobustRegression/blob/main/example/figure_1.png)
+
+**Figure 1**: Estimation error versus confidence level for the sample mean, DA-Huber, and the Adaptive Gradient Descent estimator, and the Adaptive Gradient Descent with Barzilai-Borwein estimator based on *2000* simulations.
+
+Finally, we examine the *99%*-quantile of the estimation error versus a distribution parameter measuring the tail behavior and the skewness. That is, for normal data we let &sigma; vary between *1* and *4*; for skewed generalized *t* distributions, we increase the shape parameter *q* from *2.5* to *4*; for the lognormal and Pareto distributions, the shape parameters &sigma; and &alpha; vary from *0.25* to *2* and *1.5* to *3*, respectively.
+
+![figure 2](https://github.com/YichiZhang-Oxford/pyAutoAdaptiveRobustRegression/blob/main/example/figure_2.png)
 
 ## License
 
