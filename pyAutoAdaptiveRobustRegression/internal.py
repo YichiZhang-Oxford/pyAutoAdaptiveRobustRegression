@@ -126,9 +126,9 @@ def huber_reg(X, Y, tol = 0.0001, constTau = 1.345, ite_max = 5000):
     result_cpp.free()
     return result
 
-# -------------------------
-# Adaptive Huber Regression
-# -------------------------
+# ----------------------------
+# Alternating Huber Regression
+# ----------------------------
 
 _ada_huber_reg = lib.adaHuberReg
 _ada_huber_reg.argtypes = (MyMat, MyVec, c_double, c_int)
@@ -144,9 +144,9 @@ def ada_huber_reg(X, Y, tol = 0.0001, ite_max = 5000):
     result_cpp.free()
     return result
 
-# -------------------------
-# Adaptive Gradient Descent
-# -------------------------
+# ----------------------------
+# Alternating Gradient Descent
+# ----------------------------
 
 _agd = lib.agd
 _agd.argtypes = (MyVec, c_double, c_int)
@@ -160,9 +160,9 @@ def agd(Y, epsilon = 1e-5, ite_max = 5000):
     result = _agd(_Y, epsilon, ite_max)
     return result
 
-# ------------------------------------------------------
-# Adaptive Gradient Descent with Barzilai-Borwein Method
-# ------------------------------------------------------
+# ---------------------------------------------------------
+# Alternating Gradient Descent with Barzilai-Borwein Method
+# ---------------------------------------------------------
 
 _agdBB = lib.agdBB
 _agdBB.argtypes = (MyVec, c_double, c_int)
@@ -176,9 +176,9 @@ def agd_bb(Y, epsilon = 1e-5, ite_max = 5000):
     result = _agdBB(_Y, epsilon, ite_max)
     return result
 
-# --------------------------------------------------
-# Adaptive Gradient Descent with Backtracking Method
-# --------------------------------------------------
+# -----------------------------------------------------
+# Alternating Gradient Descent with Backtracking Method
+# -----------------------------------------------------
 
 _agdBacktracking = lib.agdBacktracking
 _agdBacktracking.argtypes = (MyVec, c_double, c_double, c_double, c_double, c_double, c_double, c_double, c_int)

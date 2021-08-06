@@ -424,9 +424,9 @@ extern "C" MyVec huberReg(MyMat _X, MyVec _Y, const double tol = 0.0001, const d
     return result;
 }
 
-              /* ------------------------------- */    
-/*------------ Adaptive Gradient Descent Functions ------------*/
-              /* ------------------------------- */ 
+              /* ------------------------------------ */    
+/*------------ Alternating Gradient Descent Functions ------------*/
+              /* ------------------------------------ */ 
 
 double LnVal(const arma::vec &Y, double mu, double tau, const int n, double z)
 {
