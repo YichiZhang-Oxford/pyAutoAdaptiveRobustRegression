@@ -46,11 +46,11 @@ in /usr/local/opt/gcc/lib/gcc/11/libquadmath.0.dylib
 
 ## Functions
 
-There is one function from:
+There is one function from Sun, Q. (2021). Do we need to estimate the variance in robust mean estimation? [Paper](https://arxiv.org/pdf/2107.00118.pdf):
 
 -   `auto_arr_mean`: Alternating Gradient Descent with Barzilai-Borwein Method
 
-There are four functions from:
+There are four functions from Wang, L., Zheng, C., Zhou, W. and Zhou, W.-X. (2020). A new principle for tuning-free Huber regression. *Stat. Sinica* to appear. [Paper](https://www.math.ucsd.edu/~wez243/tfHuber.pdf):
 
 -   `tfhuber_mean`: Tuning-Free Huber Mean Estimation
 -   `tfhuber_cov`: Tuning-Free Huber Covariance Matrix Estimation
