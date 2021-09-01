@@ -48,14 +48,14 @@ in /usr/local/opt/gcc/lib/gcc/11/libquadmath.0.dylib
 
 There is one function from [Do we need to estimate the variance in robust mean estimation?](https://arxiv.org/pdf/2107.00118.pdf):
 
--   `auto_arr_mean`: Alternating Gradient Descent with Barzilai-Borwein Method
+-   `auto_arr_mean`: Auto Adaptive Robust Regression Mean Estimation
 
 There are four functions from [A new principle for tuning-free Huber regression](https://www.math.ucsd.edu/~wez243/tfHuber.pdf):
 
 -   `tfhuber_mean`: Tuning-Free Huber Mean Estimation
 -   `tfhuber_cov`: Tuning-Free Huber Covariance Matrix Estimation
 -   `tfhuber_reg`: Tuning-Free Huber Regression
--   `cv_tfhuber_lasso`: K-fold cross-validated Tuning-Free Huber-Lasso regression
+-   `cv_tfhuber_lasso`: K-fold Cross-Validated Tuning-Free Huber-Lasso Regression
 
 
 ## Examples 
