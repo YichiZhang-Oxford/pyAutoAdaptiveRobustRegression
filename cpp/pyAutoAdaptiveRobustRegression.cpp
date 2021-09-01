@@ -424,6 +424,247 @@ extern "C" MyVec huberReg(MyMat _X, MyVec _Y, const double tol = 0.0001, const d
     return result;
 }
 
+              /* - */    
+/*------------ LASSO ------------*/
+              /* - */ 
+
+arma::vec softThresh(const arma::vec& x, const arma::vec& lambda)
+{
+  return arma::sign(x) % arma::max(arma::abs(x) - lambda, arma::zeros(x.size()));
+}
+
+arma::vec cmptLambda(const arma::vec& beta, const double lambda)
+{
+  arma::vec rst = lambda * arma::ones(beta.size());
+  rst(0) = 0;
+  return rst;
+}
+
+double loss(const arma::vec& Y, const arma::vec& Ynew, const std::string lossType, const double tau)
+{
+  double rst = 0;
+  if (lossType == "l2") {
+    rst = arma::mean(arma::square(Y - Ynew)) / 2;
+  } else if (lossType == "Huber") {
+    arma::vec res = Y - Ynew;
+    for (int i = 0; i < Y.size(); i++) {
+      if (std::abs(res(i)) <= tau) {
+        rst += res(i) * res(i) / 2;
+      } else {
+        rst += tau * std::abs(res(i)) - tau * tau / 2;
+      }
+    }
+    rst /= Y.size();
+  }
+  return rst;
+}
+
+arma::vec gradLoss(const arma::mat& X, const arma::vec& Y, const arma::vec& beta,
+                   const std::string lossType, const double tau)
+{
+  arma::vec res = Y - X * beta;
+  arma::vec rst = arma::zeros(beta.size());
+  if (lossType == "l2") {
+    rst = -1 * (res.t() * X).t();
+  } else if (lossType == "Huber") {
+    for (int i = 0; i < Y.size(); i++) {
+      if (std::abs(res(i)) <= tau) {
+        rst -= res(i) * X.row(i).t();
+      } else {
+        rst -= tau * sgn(res(i)) * X.row(i).t();
+      }
+    }
+  }
+  return rst / Y.size();
+}
+
+arma::vec updateBeta(const arma::mat& X, const arma::vec& Y, arma::vec beta, const double phi,
+                     const arma::vec& Lambda, const std::string lossType, const double tau)
+{
+  arma::vec first = beta - gradLoss(X, Y, beta, lossType, tau) / phi;
+  arma::vec second = Lambda / phi;
+  return softThresh(first, second);
+}
+
+double cmptPsi(const arma::mat& X, const arma::vec& Y, const arma::vec& betaNew,
+               const arma::vec& beta, const double phi, const std::string lossType,
+               const double tau) 
+{
+  arma::vec diff = betaNew - beta;
+  double rst = loss(Y, X * beta, lossType, tau)
+    + arma::as_scalar((gradLoss(X, Y, beta, lossType, tau)).t() * diff)
+    + phi * arma::as_scalar(diff.t() * diff) / 2;
+    return rst;
+}
+
+Rcpp::List LAMM(const arma::mat& X, const arma::vec& Y, const arma::vec& Lambda, arma::vec beta,
+                const double phi, const std::string lossType, const double tau, 
+                const double gamma) 
+{
+  double phiNew = phi;
+  arma::vec betaNew = arma::vec();
+  double FVal, PsiVal;
+  while (true) {
+    betaNew = updateBeta(X, Y, beta, phiNew, Lambda, lossType, tau);
+    FVal = loss(Y, X * betaNew, lossType, tau);
+    PsiVal = cmptPsi(X, Y, betaNew, beta, phiNew, lossType, tau);
+    if (FVal <= PsiVal) {
+      break;
+    }
+    phiNew *= gamma;
+  }
+  return Rcpp::List::create(Rcpp::Named("beta") = betaNew, Rcpp::Named("phi") = phiNew);
+}
+
+arma::vec lasso(const arma::mat& X, const arma::vec& Y, const double lambda,
+                const double phi0 = 0.001, const double gamma = 1.5, 
+                const double epsilon_c = 0.001, const int iteMax = 500) 
+{
+  int d = X.n_cols - 1;
+  arma::vec beta = arma::zeros(d + 1);
+  arma::vec betaNew = arma::zeros(d + 1);
+  arma::vec Lambda = cmptLambda(beta, lambda);
+  double phi = phi0;
+  int ite = 0;
+  Rcpp::List listLAMM;
+  while (ite < iteMax) {
+    ite++;
+    listLAMM = LAMM(X, Y, Lambda, beta, phi, "l2", 1, gamma);
+    betaNew = Rcpp::as<arma::vec>(listLAMM["beta"]);
+    phi = listLAMM["phi"];
+    phi = std::max(phi0, phi / gamma);
+    if (arma::norm(betaNew - beta, "inf") <= epsilon_c) {
+      break;
+    }
+    beta = betaNew;
+  }
+  return betaNew;
+}
+
+Rcpp::List huberLasso(const arma::mat& X, const arma::vec& Y, const double lambda,
+                      double tau = -1, const double constTau = 1.345, const double phi0 = 0.001, 
+                      const double gamma = 1.5, const double epsilon_c = 0.001, 
+                      const int iteMax = 500) 
+{
+  int n = X.n_rows;
+  int d = X.n_cols - 1;
+  arma::vec beta = arma::zeros(d + 1);
+  arma::vec betaNew = arma::zeros(d + 1);
+  arma::vec Lambda = cmptLambda(beta, lambda);
+  double mad;
+  if (tau <= 0) {
+    arma::vec betaLasso = lasso(X, Y, lambda, phi0, gamma, epsilon_c, iteMax);
+    arma::vec res = Y - X * betaLasso;
+    mad = arma::median(arma::abs(res - arma::median(res))) / 0.6744898;
+    tau = constTau * mad;
+  }
+  double phi = phi0;
+  int ite = 0;
+  Rcpp::List listLAMM;
+  arma::vec res(n);
+  while (ite < iteMax) {
+    ite++;
+    listLAMM = LAMM(X, Y, Lambda, beta, phi, "Huber", tau, gamma);
+    betaNew = Rcpp::as<arma::vec>(listLAMM["beta"]);
+    phi = listLAMM["phi"];
+    phi = std::max(phi0, phi / gamma);
+    if (arma::norm(betaNew - beta, "inf") <= epsilon_c) {
+      break;
+    }
+    beta = betaNew;
+    res = Y - X * beta;
+    mad = arma::median(arma::abs(res - arma::median(res))) / 0.6744898;
+    tau = constTau * mad;
+  }
+  return Rcpp::List::create(Rcpp::Named("beta") = betaNew, Rcpp::Named("tau") = tau,
+                            Rcpp::Named("iteration") = ite);
+}
+
+arma::uvec getIndex(const int n, const int low, const int up) 
+{
+  arma::vec seq = arma::regspace(0, n - 1);
+  return arma::find(seq >= low && seq <= up);
+}
+
+arma::uvec getIndexComp(const int n, const int low, const int up)
+{
+  arma::vec seq = arma::regspace(0, n - 1);
+  return arma::find(seq < low || seq > up);
+}
+
+double pairPred(const arma::mat& X, const arma::vec& Y, const arma::vec& beta)
+{
+  int n = X.n_rows;
+  int d = X.n_cols - 1;
+  int m = n * (n - 1) >> 1;
+  arma::mat pairX(m, d + 1);
+  arma::vec pairY(m);
+  int k = 0;
+  for (int i = 0; i < n; i++) {
+    for (int j = i + 1; j < n; j++) {
+      pairX.row(k) = X.row(i) - X.row(j);
+      pairY(k++) = Y(i) - Y(j);
+    }
+  }
+  arma::vec predY = pairX * beta;
+  return arma::accu(arma::square(pairY - predY));
+}
+
+Rcpp::List cvHuberLasso(const arma::mat& X, const arma::vec& Y,
+                        Rcpp::Nullable<Rcpp::NumericVector> lSeq = R_NilValue, int nlambda = 30,
+                        const double constTau = 2.5, const double phi0 = 0.001, 
+                        const double gamma = 1.5, const double epsilon_c = 0.001, 
+                        const int iteMax = 500, int nfolds = 3) 
+{
+  int n = X.n_rows;
+  int d = X.n_cols;
+  arma::mat Z(n, d + 1);
+  Z.cols(1, d) = X;
+  Z.col(0) = arma::ones(n);
+  arma::vec lambdaSeq = arma::vec();
+  if (lSeq.isNotNull()) {
+    lambdaSeq = Rcpp::as<arma::vec>(lSeq);
+    nlambda = lambdaSeq.size();
+  } else {
+    double lambdaMax = arma::max(arma::abs(Y.t() * Z)) / n;
+    double lambdaMin = 0.01 * lambdaMax;
+    lambdaSeq = arma::exp(arma::linspace(std::log((long double)lambdaMin),
+                                   std::log((long double)lambdaMax), nlambda));
+  }
+  if (nfolds > 10 || nfolds > n) {
+    nfolds = n < 10 ? n : 10;
+  }
+  int size = n / nfolds;
+  arma::vec mse = arma::zeros(nlambda);
+  int low, up;
+  arma::uvec idx, idxComp;
+  Rcpp::List hLassoList;
+  arma::vec thetaHat(d + 1);
+  for (int i = 0; i < nlambda; i++) {
+    for (int j = 0; j < nfolds; j++) {
+      low = j * size;
+      up = (j == (nfolds - 1)) ? (n - 1) : ((j + 1) * size - 1);
+      idx = getIndex(n, low, up);
+      idxComp = getIndexComp(n, low, up);
+      hLassoList = huberLasso(Z.rows(idxComp), Y.rows(idxComp), lambdaSeq(i), -1, constTau, phi0, 
+                              gamma, epsilon_c, iteMax);
+      thetaHat = Rcpp::as<arma::vec>(hLassoList["beta"]);
+      mse(i) += pairPred(Z.rows(idx), Y.rows(idx), thetaHat);
+    }
+  }
+  arma::uword cvIdx = mse.index_min();
+  hLassoList = huberLasso(Z, Y, lambdaSeq(cvIdx), -1, constTau, phi0, gamma, epsilon_c, iteMax);
+  arma::vec theta = Rcpp::as<arma::vec>(hLassoList["beta"]);
+  Rcpp::List listMean = huberMean(Y - Z.cols(1, d) * theta.rows(1, d));
+  theta(0) = listMean["mu"];
+  return Rcpp::List::create(Rcpp::Named("theta") = theta, Rcpp::Named("lambdaSeq") = lambdaSeq,
+                            Rcpp::Named("lambdaMin") = lambdaSeq(cvIdx), 
+                            Rcpp::Named("tauCoef") = hLassoList["tau"], 
+                            Rcpp::Named("tauItcp") = listMean["tau"], 
+                            Rcpp::Named("iteCoef") = hLassoList["iteration"],
+                            Rcpp::Named("iteItcp") = listMean["iteration"]);
+}
+
               /* ------------------------------------ */    
 /*------------ Alternating Gradient Descent Functions ------------*/
               /* ------------------------------------ */ 

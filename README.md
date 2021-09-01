@@ -46,15 +46,16 @@ in /usr/local/opt/gcc/lib/gcc/11/libquadmath.0.dylib
 
 ## Functions
 
-There are seven functions in this package:
+There is one function from:
 
--   `agd`: Alternating Gradient Descent
--   `agd_bb`: Alternating Gradient Descent with Barzilai-Borwein Method
--   `agd_backtracking`: Alternating Gradient Descent with Backtracking Method
--   `huber_mean`: Huber Mean Estimation
--   `huber_cov`: Huber Covariance Matrix Estimation
--   `huber_reg`: Huber Regression
--   `ada_huber_reg`: Adaptive Huber Regression
+-   `auto_arr_mean`: Alternating Gradient Descent with Barzilai-Borwein Method
+
+There are four functions from:
+
+-   `tfhuber_mean`: Tuning-Free Huber Mean Estimation
+-   `tfhuber_cov`: Tuning-Free Huber Covariance Matrix Estimation
+-   `tfhuber_reg`: Tuning-Free Huber Regression
+-   `cv_tfhuber_lasso`: K-fold cross-validated Tuning-Free Huber-Lasso regression
 
 
 ## Examples 
