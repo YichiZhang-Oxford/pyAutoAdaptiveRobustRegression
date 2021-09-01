@@ -48,7 +48,7 @@ in /usr/local/opt/gcc/lib/gcc/11/libquadmath.0.dylib
 
 There is one function from [Do we need to estimate the variance in robust mean estimation?](https://arxiv.org/pdf/2107.00118.pdf):
 
--   `auto_arr_mean`: Auto Adaptive Robust Regression Mean Estimation
+-   `autoarr_mean`: Auto Adaptive Robust Regression Mean Estimation
 
 There are four functions from [A new principle for tuning-free Huber regression](https://www.math.ucsd.edu/~wez243/tfHuber.pdf):
 
